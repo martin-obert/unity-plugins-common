@@ -17,4 +17,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: echo "Fertig"
+      - run: cat << EOF > .npmrc
+             //${{ secrets.NPM_REGISTRY_IP }}/:_authToken="${{ secrets.NPM_AUTH_TOKEN }}"
+             EOF
+      - run: npm publish --registry http://${{ secrets.NPM_REGISTRY_IP }}
+      - run: echo "DONE"
