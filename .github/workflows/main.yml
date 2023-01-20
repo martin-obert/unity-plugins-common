@@ -1,8 +1,6 @@
 name: Node Continuous Integration
 
-on:
-  pull_request:
-    branches: [ master ]
+on: [workflow_dispatch]
     
 defaults:
   run:
