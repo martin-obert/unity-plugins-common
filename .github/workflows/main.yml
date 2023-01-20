@@ -20,7 +20,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: cat << EOF > .npmrc
+      - run: |
+             cat << EOF > .npmrc
              //$SERVER/:_authToken="$TOKEN"
              EOF
       - run: npm publish --registry http://$SERVER
