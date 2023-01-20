@@ -16,6 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: google-github-actions/release-please-action@v3
+        with:
+          release-type: simple
+          package-name: com.obert.common
       - uses: actions/setup-node@v1
         with:
           node-version: 12
