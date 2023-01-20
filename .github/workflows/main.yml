@@ -23,6 +23,7 @@ jobs:
         with:
           release-type: node
           package-name: com.obert.common
+          path: Assets/Scripts
       - name: ㊙️ Creating NPMRC
         run: |
              cat << EOF > .npmrc
