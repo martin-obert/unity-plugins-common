@@ -1,6 +1,6 @@
 {
   "name": "com.obert.common",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Obert - Common",
   "description": "Common plugin",
   "unity": "2021.3",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/martin-obert/unity-plugins-common.git"
   },
- "keywords": [
+  "keywords": [
     "obert",
     "common",
     "core"
