@@ -1,0 +1,22 @@
+{
+  "name": "com.obert.common",
+  "version": "0.1.0",
+  "displayName": "Obert - Common",
+  "description": "Common plugin",
+  "unity": "2021.3",
+  "unityRelease": "9f1",
+  "documentationUrl": "https://github.com/martin-obert/unity-plugins-common",
+  "changelogUrl": "https://github.com/martin-obert/unity-plugins-common",
+  "licensesUrl": "https://github.com/martin-obert/unity-plugins-common",
+  
+ "keywords": [
+    "obert",
+    "common",
+    "core"
+  ],
+  "author": {
+    "name": "Martin Obert",
+    "email": "martin@obert.cz",
+    "url": "https://github.com/martin-obert"
+  }
+}
