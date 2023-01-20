@@ -20,9 +20,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - name: ㊙️ Creating NPMRC
       - run: |
              cat << EOF > .npmrc
              //$SERVER/:_authToken="$TOKEN"
              EOF
+      - name: ⬆️ NPM PUBLISH
       - run: npm publish --registry http://$SERVER
       - run: echo "DONE"
