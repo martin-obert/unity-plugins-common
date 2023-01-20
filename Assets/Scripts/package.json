@@ -8,7 +8,10 @@
   "documentationUrl": "https://github.com/martin-obert/unity-plugins-common",
   "changelogUrl": "https://github.com/martin-obert/unity-plugins-common",
   "licensesUrl": "https://github.com/martin-obert/unity-plugins-common",
-  
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martin-obert/unity-plugins-common.git"
+  },
  "keywords": [
     "obert",
     "common",
