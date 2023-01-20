@@ -20,10 +20,11 @@ jobs:
         with:
           node-version: 12
       - name: ㊙️ Creating NPMRC
-      - run: |
+        run: |
              cat << EOF > .npmrc
              //$SERVER/:_authToken="$TOKEN"
              EOF
       - name: ⬆️ NPM PUBLISH
-      - run: npm publish --registry http://$SERVER
-      - run: echo "DONE"
+        run: npm publish --registry http://$SERVER
+      - name: ✅ COMPLETE
+        run: echo "DONE"
