@@ -2,6 +2,7 @@ name: Node Continuous Integration
 
 on:
   pull_request:
+    types: closed
     branches: [ main ]
     
 defaults:
@@ -19,6 +20,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - uses: google-github-actions/release-please-action@v3
+        with:
+          release-type: node
+          package-name: com.obert.common
+          path: Assets/Scripts
       - name: ㊙️ Creating NPMRC
         run: |
              cat << EOF > .npmrc
