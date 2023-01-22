@@ -2,6 +2,7 @@ name: Node Continuous Integration
 
 on:
   pull_request:
+    types: closed
     branches: [ main ]
     
 defaults:
