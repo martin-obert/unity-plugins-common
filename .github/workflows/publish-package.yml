@@ -2,8 +2,7 @@ name: NPM Publish package
 
 on:
   pull_request:
-    types: closed
-    branches: [ 'release-please-*' ]
+    branches: [ 'main' ]
     
 defaults:
   run:
@@ -13,6 +12,7 @@ env:
   TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 jobs:
   publish:
+    if: startsWith(github.head_ref, 'release-please')
     environment: prod
     runs-on: ubuntu-latest
     steps:
