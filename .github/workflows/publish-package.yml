@@ -14,7 +14,8 @@ env:
 jobs:
   print:
     runs-on: ubuntu-latest
-    steps: echo '${{ github.head_ref }}'
+    steps:
+      - run: echo '${{ github.head_ref }}'
     
   publish:
     if: startsWith(github.head_ref, 'release-please')
