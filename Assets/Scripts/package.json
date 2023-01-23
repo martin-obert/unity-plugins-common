@@ -5,8 +5,8 @@
   "description": "Common plugin",
   "unity": "2021.3",
   "unityRelease": "9f1",
-  "documentationUrl": "https://github.com/martin-obert/unity-plugins-common",
-  "changelogUrl": "https://github.com/martin-obert/unity-plugins-common",
+  "documentationUrl": "https://github.com/martin-obert/unity-plugins-common?path=Assets/Scripts/Readme.md",
+  "changelogUrl": "https://github.com/martin-obert/unity-plugins-common?path=Assets/Scripts/CHANGELOG.md",
   "licensesUrl": "https://github.com/martin-obert/unity-plugins-common",
   "repository": {
     "type": "git",
