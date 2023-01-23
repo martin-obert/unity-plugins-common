@@ -2,6 +2,7 @@ name: NPM Publish package
 
 on:
   pull_request:
+    types: [ closed ]
     branches: [ 'main' ]
     
 defaults:
@@ -10,13 +11,11 @@ defaults:
 env:
   SERVER: ${{ secrets.NPM_REGISTRY_IP }}
   TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-  
 jobs:
   print:
     runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ github.head_ref }}
-  
+    steps: echo '${{ github.head_ref }}'
+    
   publish:
     if: startsWith(github.head_ref, 'release-please')
     environment: prod
