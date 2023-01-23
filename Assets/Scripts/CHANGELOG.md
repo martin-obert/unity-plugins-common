@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.5.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.4.0...v1.5.0) (2023-01-23)
+
+
+### Features
+
+* added folder skeleton ([df113b7](https://github.com/martin-obert/unity-plugins-common/commit/df113b72435430a6188967a5e02028a8f53247c8))
+* added some editor utilities ([057acd9](https://github.com/martin-obert/unity-plugins-common/commit/057acd916dc7e922914f1788ac4ec7166135dc56))
+* Scene Groups ([3aff3d9](https://github.com/martin-obert/unity-plugins-common/commit/3aff3d9c64e7fb61139c857512c58da1d114a215))
+* Scene Orchestration basics ([c96fd57](https://github.com/martin-obert/unity-plugins-common/commit/c96fd57c517625cf7c28621008192a998ea35367))
+
+
+### Bug Fixes
+
+* updated package.json ([da20fd7](https://github.com/martin-obert/unity-plugins-common/commit/da20fd726e64c4fb683926fbddef90ca0ad73142))
+
 ## [1.4.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.3.0...v1.4.0) (2023-01-23)
 
 
