@@ -1,9 +1,9 @@
 name: Release Please
 
 on:
-  pull_request:
-    types: [ opened ]
-    branches: [ main ]
+  push:
+    branches:
+      - main
     
 defaults:
   run:
