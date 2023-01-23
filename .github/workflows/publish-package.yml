@@ -12,14 +12,7 @@ env:
   SERVER: ${{ secrets.NPM_REGISTRY_IP }}
   TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 jobs:
-<<<<<<< Updated upstream
-  print:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo '${{ github.head_ref }}'
-    
-=======
->>>>>>> Stashed changes
+
   publish:
     if: startsWith(github.head_ref, 'release-please')
     environment: prod
