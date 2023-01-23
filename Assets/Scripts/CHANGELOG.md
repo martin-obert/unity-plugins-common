@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.5.0...v1.6.0) (2023-01-23)
+
+
+### Features
+
+* added samples ([af09a22](https://github.com/martin-obert/unity-plugins-common/commit/af09a22c35b4ad4370004e5ab267c76ae208d4ca))
+
 ## [1.5.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.4.0...v1.5.0) (2023-01-23)
 
 
