@@ -21,5 +21,12 @@
     "name": "Martin Obert",
     "email": "martin@obert.cz",
     "url": "https://github.com/martin-obert"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Basic sample",
+      "description": "Add sample scenes to build first! Demonstration of an scene management with Entry point scene and two levels with Player HUD. Watch for the scriptable files and groupings. See git repository for more details.",
+      "path": "Samples~/Basic Sample"
+    }
+  ]
 }
