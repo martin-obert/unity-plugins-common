@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.2.0...v1.3.0) (2023-01-23)
+
+
+### Features
+
+* Scene Groups ([3aff3d9](https://github.com/martin-obert/unity-plugins-common/commit/3aff3d9c64e7fb61139c857512c58da1d114a215))
+
 ## [1.2.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.1.0...v1.2.0) (2023-01-22)
 
 
