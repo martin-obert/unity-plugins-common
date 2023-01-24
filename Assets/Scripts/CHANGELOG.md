@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.7.0...v1.8.0) (2023-01-24)
+
+
+### Features
+
+* basic implementation of background tasks ([c6bb6d9](https://github.com/martin-obert/unity-plugins-common/commit/c6bb6d9d8f6a0b6547d7f1aaf4f95421ad53770b))
+
 ## [1.7.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.6.0...v1.7.0) (2023-01-24)
 
 
