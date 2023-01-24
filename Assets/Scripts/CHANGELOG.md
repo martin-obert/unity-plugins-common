@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.7.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.6.0...v1.7.0) (2023-01-24)
+
+
+### Features
+
+* basic repository impl. ([14a1143](https://github.com/martin-obert/unity-plugins-common/commit/14a1143ae956db8d3bece924da4970b5c04a5076))
+* initial implementation ([9e9d873](https://github.com/martin-obert/unity-plugins-common/commit/9e9d873b1e6b7abc5ddc44932af5740b06512146))
+
+
+### Bug Fixes
+
+* sample organisation ([cdf5c28](https://github.com/martin-obert/unity-plugins-common/commit/cdf5c2857f0391be985fd2b4e79d0265c1f64188))
+
 ## [1.6.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.5.0...v1.6.0) (2023-01-23)
 
 
