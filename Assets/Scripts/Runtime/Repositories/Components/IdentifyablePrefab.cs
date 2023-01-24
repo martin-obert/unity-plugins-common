@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Obert.Common.Runtime.Repositories
+namespace Obert.Common.Runtime.Repositories.Components
 {
     public class IdentifyablePrefab : MonoBehaviour, IPrefabIdentifier
     {

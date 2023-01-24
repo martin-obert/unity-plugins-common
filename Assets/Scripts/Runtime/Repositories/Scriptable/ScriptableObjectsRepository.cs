@@ -1,16 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using UnityEngine;
 
-namespace Obert.Common.Runtime.Repositories
+namespace Obert.Common.Runtime.Repositories.Scriptable
 {
-    public class ScriptableRepositoryBase : ScriptableObject
-    {
-        
-    }
-    
     public abstract class ScriptableObjectsRepository<TData> : ScriptableRepositoryBase, IReadOnlyRepository<TData>
     {
         [SerializeField] private TData[] items;

@@ -3,25 +3,27 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace Obert.Common.Runtime.Repositories
+namespace Obert.Common.Runtime.Repositories.Scriptable
 {
     public abstract class JsonScriptableRepository<TData> : ScriptableRepositoryBase, IRepository<TData>
     {
         [SerializeField] private string jsonFileName;
 
-        [SerializeField, Tooltip("Relative to - Application.streamingAssetsPath")]
+        [SerializeField, Tooltip("Relative to - Application.persistentDataPath")]
         private string relativePath;
-        
+
         private JsonDataRepository<TData> _repository;
+
+        [SerializeField] private bool saveOnDestroy;
 
         private IRepository<TData> Repository
         {
             get
             {
                 if (_repository != null) return _repository;
-                
-                var filePath = Path.Combine(Application.streamingAssetsPath, relativePath);
-                
+
+                var filePath = Path.Combine(Application.persistentDataPath, relativePath);
+
                 _repository = new JsonDataRepository<TData>(jsonFileName, filePath);
 
                 return _repository;
@@ -30,6 +32,11 @@ namespace Obert.Common.Runtime.Repositories
 
         private void OnDestroy()
         {
+            if (saveOnDestroy)
+            {
+                _repository.Save();
+            }
+
             Dispose();
         }
 
@@ -50,7 +57,9 @@ namespace Obert.Common.Runtime.Repositories
         public void DeleteSingle(TData item)
             => Repository.DeleteSingle(item);
 
-        public void Save() 
+        public void ClearAll() => Repository.ClearAll();
+
+        public void Save()
             => Repository.Save();
     }
 }

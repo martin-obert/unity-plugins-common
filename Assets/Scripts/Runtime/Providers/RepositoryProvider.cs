@@ -2,6 +2,7 @@
 using System.Linq;
 using Obert.Common.Runtime.Extensions;
 using Obert.Common.Runtime.Repositories;
+using Obert.Common.Runtime.Repositories.Components;
 using UnityEngine;
 
 namespace Obert.Common.Runtime.Providers
@@ -9,8 +10,8 @@ namespace Obert.Common.Runtime.Providers
     public class RepositoryProvider : MonoBehaviour
     {
         [SerializeField] private ScriptableObject[] scriptableRepositories;
-        [SerializeField] private MonoRepositoryBase[] monoRepositories;
-        [SerializeField] private ReadOnlyMonoRepositoryBase[] readOnlyMonoRepositories;
+        private MonoRepositoryBase[] _monoRepositories;
+        private ReadOnlyMonoRepositoryBase[] _readOnlyMonoRepositories;
 
         private IRepositoryBase[] Repositories { get; set; }
         private IReadOnlyRepositoryBase[] ReadOnlyRepositories { get; set; }

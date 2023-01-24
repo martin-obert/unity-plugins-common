@@ -2,11 +2,44 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Obert.Common.Runtime.Extensions
 {
     public static class GameObjectExtensions
     {
+        public static void ClearChildGameObjects(this Transform source, Action<Transform> onDestroy = null)
+        {
+            if(!source) return;
+
+            var childCount = source.childCount;
+
+            for (int i = childCount - 1; i >= 0; i--)
+            {
+                var child = source.GetChild(i);
+                if(!child) continue;
+                onDestroy?.Invoke(child);
+                if(!child) continue;
+                Object.Destroy(child.gameObject);
+            }
+        }
+        
+        public static void ClearChildGameObjectsImmediately(this Transform source, Action<Transform> onDestroy = null)
+        {
+            if(!source) return;
+
+            var childCount = source.childCount;
+
+            for (int i = childCount - 1; i >= 0; i--)
+            {
+                var child = source.GetChild(i);
+                if(!child) continue;
+                onDestroy?.Invoke(child);
+                if(!child) continue;
+                Object.DestroyImmediate(child.gameObject);
+            }
+        }
+        
         public static IEnumerable<T> GetInterfacesOfType<T>(this Component component)
         {
             if (!component) throw new ArgumentNullException(nameof(component));
