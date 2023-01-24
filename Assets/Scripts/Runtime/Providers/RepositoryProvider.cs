@@ -50,6 +50,8 @@ namespace Obert.Common.Runtime.Providers
 
             ReadOnlyRepositories = readOnlySelf.Union(readOnlyChildren).ToArray();
             Repositories = ReadOnlyRepositories.OfType<IRepositoryBase>().ToArray();
+
+            DontDestroyOnLoad(gameObject);
         }
     }
 }
