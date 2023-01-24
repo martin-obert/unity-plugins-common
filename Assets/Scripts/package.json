@@ -30,8 +30,13 @@
     },
     {
       "displayName": "Repository Sample",
-      "description": "Simple JSON file repository for managing data and their representation in UI. ",
+      "description": "Simple JSON file repository for managing data and their representation in UI. Good for ad-hoc saves, will expand for async stuff.",
       "path": "Samples~/Repository Sample"
+    },
+    {
+      "displayName": "Background Tasks",
+      "description": "Simple lighweighted tasks, that without additional dependencies. Still would prefer UniTasks, but this is relatively fast and easy to use.",
+      "path": "Samples~/Background Tasks"
     }
   ]
 }
