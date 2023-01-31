@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.8.0...v1.9.0) (2023-01-31)
+
+
+### Features
+
+* disposable unity events ([ef57949](https://github.com/martin-obert/unity-plugins-common/commit/ef5794943a2591d0e871e5f9472e08f25802b3da))
+
 ## [1.8.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.7.0...v1.8.0) (2023-01-24)
 
 
