@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/martin-obert/unity-plugins-common/compare/v1.9.0...v1.9.1) (2023-02-02)
+
+
+### Bug Fixes
+
+* asmdef for Editor ([2b29860](https://github.com/martin-obert/unity-plugins-common/commit/2b29860ee4320fd00d3a8412917486a785873387))
+
 ## [1.9.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.8.0...v1.9.0) (2023-01-31)
 
 
