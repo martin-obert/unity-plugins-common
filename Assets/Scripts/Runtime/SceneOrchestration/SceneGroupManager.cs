@@ -10,30 +10,6 @@ namespace Obert.Common.Runtime.SceneOrchestration
 {
     public class SceneGroupManager : MonoBehaviour, ISceneGroupManager
     {
-        private class EditorTimeSceneMetadata : ISceneMetadata
-        {
-            public EditorTimeSceneMetadata(string scenePath)
-            {
-                ScenePath = scenePath;
-            }
-
-            public string DisplayName { get; }
-            public string ScenePath { get; }
-            public bool DoNotDestroy => false;
-            public bool SetSceneActive => false;
-            public bool DoNotOverride => false;
-        }
-
-        private class EditorTimeGroup : ISceneGroup
-        {
-            public EditorTimeGroup(ISceneMetadata[] items)
-            {
-                Items = items;
-            }
-
-            public ISceneMetadata[] Items { get; }
-        }
-
         [SerializeField] private SceneGroup defaultGroup;
 
         [SerializeField] private LoadingSceneGroupUnityEvent onLoadingStarted;
@@ -61,20 +37,20 @@ namespace Obert.Common.Runtime.SceneOrchestration
 
 #if UNITY_EDITOR
 
-            if (SceneManager.sceneCount <= 1) return;
+            // We only care about loading the default scene group upon start
+            // when there is application entry scene loaded. Otherwise exit
+            if (SceneManager.sceneCount != 1) return;
 
-            var buildScenes = UnityEditor.EditorBuildSettings.scenes;
-
-            var buildScenePath = buildScenes.First().path;
-            var buildSceneName = Path.GetFileNameWithoutExtension(buildScenePath);
-
-            var loadedScenes = SceneManagerExtensions.GetLoadedScenesNames();
-
-            var initGroup = new EditorTimeGroup(loadedScenes.Where(x => !string.Equals(x, buildSceneName))
-                .Select(x => new EditorTimeSceneMetadata(x) as ISceneMetadata).ToArray());
-
-            _currentGroup = initGroup;
-
+            var initialScene = UnityEditor.EditorBuildSettings.scenes[0];
+            var loadedScene = SceneManager.GetSceneAt(0);
+                
+            // If the only scene loaded is not application entry point,
+            // we don't want to continue loading initial scene group.
+            // Since we're in editor, the user could be just developing.
+            if (!initialScene.path.Equals(loadedScene.path))
+            {
+                return;
+            }
 #endif
             
             if (defaultGroup)
@@ -104,7 +80,7 @@ namespace Obert.Common.Runtime.SceneOrchestration
             IsLoading = true;
 
             var oneStep = 1f / ((_currentGroup?.Items?.Length ?? 0) + group.Items.Length);
-            var sceneLoadingState = new SceneLoadingState(oneStep);
+            var sceneLoadingState = new SceneLoadingProgressHandle(oneStep);
 
             onLoadingStarted.Invoke(sceneLoadingState);
 
@@ -151,7 +127,7 @@ namespace Obert.Common.Runtime.SceneOrchestration
         }
 
         private IEnumerator UnloadGroup(ISceneGroup groupToUnload, ISceneGroup loadedGroup,
-            SceneLoadingState sceneLoadingState)
+            SceneLoadingProgressHandle sceneLoadingState)
         {
             if (groupToUnload == null) throw new ArgumentNullException(nameof(groupToUnload));
 

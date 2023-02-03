@@ -9,9 +9,6 @@ namespace Obert.Common.Editor.Attributes
     [CustomPropertyDrawer(typeof(SceneRefAttribute))]
     public class SceneRefAttributeDrawer : PropertyDrawer
     {
-        //UnityEditorInternal.InternalEditorUtility.tags
-
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (property.propertyType != SerializedPropertyType.String)
@@ -34,6 +31,7 @@ namespace Obert.Common.Editor.Attributes
             var scene = EditorGUI.ObjectField(position, label, currentValue, typeof(SceneAsset), false) as SceneAsset;
             if (scene != currentValue)
             {
+                var nValue = string.Empty;
                 if (scene)
                 {
                     var sceneNameWithExtension = $"{scene.name}.unity";
@@ -44,14 +42,10 @@ namespace Obert.Common.Editor.Attributes
                         Debug.LogError($"Unable to find scene {sceneNameWithExtension} in EditorBuildSettings.scenes");
                         return;
                     }
-                    
-                    property.stringValue = sceneBuild.path;
+                    nValue = sceneBuild.path;
                 }
-                else
-                {
-                    property.stringValue = string.Empty;
-                }
-                
+                Undo.RecordObject(property.serializedObject.targetObject, $"Set {property.serializedObject.targetObject}");
+                property.stringValue = nValue;
                 property.serializedObject.ApplyModifiedProperties();
             }
         }

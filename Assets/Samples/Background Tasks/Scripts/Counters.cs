@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using Obert.Common.Runtime.Attributes;
 using Obert.Common.Runtime.Extensions;
 using Obert.Common.Runtime.Tasks;
 using TMPro;
@@ -11,6 +12,14 @@ namespace Samples.Background_Tasks.Scripts
 {
     public class Counters : MonoBehaviour
     {
+        [Serializable]
+        public class CountersIds
+        {
+            [Id] [SerializeField] private string id;
+            public string Id => id;
+        }
+
+        public CountersIds[] ids;
         [SerializeField] private TMP_Text[] counters;
         [SerializeField] private int countTo = 10;
 
