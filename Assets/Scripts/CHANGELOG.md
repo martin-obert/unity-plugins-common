@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.9.1...v1.10.0) (2023-02-03)
+
+
+### Features
+
+* Id attribute ([0653b10](https://github.com/martin-obert/unity-plugins-common/commit/0653b10ad988c893b08cada544dd8aa4928624c8))
+
 ## [1.9.1](https://github.com/martin-obert/unity-plugins-common/compare/v1.9.0...v1.9.1) (2023-02-02)
 
 
