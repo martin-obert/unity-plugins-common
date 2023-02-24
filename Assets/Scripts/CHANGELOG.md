@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.10.0...v1.11.0) (2023-02-24)
+
+
+### Features
+
+* extended repository imp ([539a2f5](https://github.com/martin-obert/unity-plugins-common/commit/539a2f540a6ade6304e4255d1aab4d47a9182eac))
+
 ## [1.10.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.9.1...v1.10.0) (2023-02-03)
 
 
