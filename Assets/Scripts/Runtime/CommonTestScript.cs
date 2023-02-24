@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Obert.Common
+namespace Obert.Common.Runtime
 {
     public class CommonTestScript : MonoBehaviour
     {
