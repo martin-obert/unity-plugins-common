@@ -28,15 +28,13 @@ namespace Obert.Common.Runtime.Repositories.Components
 
         private JsonDataRepository<TData> _repository;
 
-        [Header("Events"), Space(10)]
-        [Header("Single Item")]
-        
+        [Header("Events"), Space(10)] [Header("Single Item")]
         public UnityEvent<ItemCreatedEvent<TData>> onItemCreated;
+
         public UnityEvent<ItemDeletedEvent<TData>> onItemDeleted;
         public UnityEvent<ItemUpdatedEvent<TData>> onItemUpdated;
 
-        [Header("Bulk")] 
-        public UnityEvent<ItemCreatedBulkEvent<TData>> onItemCreatedBulk;
+        [Header("Bulk")] public UnityEvent<ItemCreatedBulkEvent<TData>> onItemCreatedBulk;
         public UnityEvent<ItemDeletedBulkEvent<TData>> onItemDeletedBulk;
 
 
@@ -97,13 +95,13 @@ namespace Obert.Common.Runtime.Repositories.Components
         private void OnDestroy()
         {
             Dispose();
-            
+
             onItemCreated?.RemoveAllListeners();
             onItemCreatedBulk?.RemoveAllListeners();
-            
+
             onItemDeleted?.RemoveAllListeners();
             onItemDeletedBulk?.RemoveAllListeners();
-            
+
             _disposableContainer.Dispose();
         }
 
