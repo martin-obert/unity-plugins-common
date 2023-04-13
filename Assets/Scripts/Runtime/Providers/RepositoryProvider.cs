@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace Obert.Common.Runtime.Providers
 {
+    [Obsolete("Do not use static, use DI", false)]
     public class RepositoryProvider : MonoBehaviour
     {
         [SerializeField] private ScriptableObject[] scriptableRepositories;
