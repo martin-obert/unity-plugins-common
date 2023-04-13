@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a66f0e81bee487eb8bd155eb1920e21, type: 3}
   m_Name: Level 2 Metadata
   m_EditorClassIdentifier: Obert.Common:Obert.Common.Runtime.SceneOrchestration:SceneMetadata
-  scenePath: Assets/Samples/Scenes/Level 2.unity
+  scenePath: Assets/Samples/Basic Sample/Scenes/Level 2/Level 2.unity
   doNotDestroy: 0
-  doNotOverride: 0
+  isSingleton: 0
   setSceneActive: 1
   displayName: 

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a66f0e81bee487eb8bd155eb1920e21, type: 3}
   m_Name: Player HUD Metadata
   m_EditorClassIdentifier: Obert.Common:Obert.Common.Runtime.SceneOrchestration:SceneMetadata
-  scenePath: Assets/Samples/Scenes/Player HUD.unity
+  scenePath: Assets/Samples/Basic Sample/Scenes/Player HUD/Player HUD.unity
   doNotDestroy: 1
-  doNotOverride: 0
+  isSingleton: 0
   setSceneActive: 0
+  displayName: 
