@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.11.0...v1.12.0) (2023-04-13)
+
+
+### Features
+
+* refactor ([0fb6472](https://github.com/martin-obert/unity-plugins-common/commit/0fb647218e7fa1e9f70a7d5c1afb854aefc3fadb))
+
 ## [1.11.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.10.0...v1.11.0) (2023-02-24)
 
 
