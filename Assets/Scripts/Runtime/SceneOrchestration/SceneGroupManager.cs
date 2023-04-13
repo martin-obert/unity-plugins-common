@@ -1,73 +1,33 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Obert.Common.Runtime.Extensions;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Obert.Common.Runtime.SceneOrchestration
 {
-    public class SceneGroupManager : MonoBehaviour, ISceneGroupManager
+    public sealed class SceneGroupManager : ISceneGroupManager, IDisposable
     {
-        [SerializeField] private SceneGroup defaultGroup;
-
-        [SerializeField] private LoadingSceneGroupUnityEvent onLoadingStarted;
-
-        [SerializeField] private float debugDelayBetweenOperations;
-
-        public bool IsLoading { get; private set; }
-
-        public static ISceneGroupManager Instance { get; private set; }
-
-        private void Start()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                if (!ReferenceEquals(this, Instance))
-                {
-                    Destroy(this);
-                    return;
-                }
-            }
-
-#if UNITY_EDITOR
-
-            // We only care about loading the default scene group upon start
-            // when there is application entry scene loaded. Otherwise exit
-            if (SceneManager.sceneCount != 1) return;
-
-            var initialScene = UnityEditor.EditorBuildSettings.scenes[0];
-            var loadedScene = SceneManager.GetSceneAt(0);
-                
-            // If the only scene loaded is not application entry point,
-            // we don't want to continue loading initial scene group.
-            // Since we're in editor, the user could be just developing.
-            if (!initialScene.path.Equals(loadedScene.path))
-            {
-                return;
-            }
-#endif
-            
-            if (defaultGroup)
-            {
-                LoadGroup(defaultGroup);
-            }
-        }
-
         private ISceneGroup _currentGroup;
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
+        private readonly float _debugDelayBetweenOperations;
+        public bool IsLoading { get; private set; }
+        public event EventHandler<SceneLoadingState> SceneLoadingStateChanged;
+
+        public SceneGroupManager( float debugDelayBetweenOperations = 0)
+        {
+            _debugDelayBetweenOperations = debugDelayBetweenOperations;
+        }
 
         public void LoadGroup(ISceneGroup group)
         {
             if (IsLoading) throw new Exception("Another group is already loading. Unable to start new group loading");
-            StartCoroutine(LoadGroupAsync(group));
+            UniTask.Void(async t => await LoadGroupAsync(group, t), _cancellationTokenSource.Token);
         }
 
-        private IEnumerator LoadGroupAsync(ISceneGroup group)
+        private async UniTask LoadGroupAsync(ISceneGroup group, CancellationToken cancellationToken = default)
         {
             if (group == null)
                 throw new ArgumentNullException(nameof(group));
@@ -75,37 +35,38 @@ namespace Obert.Common.Runtime.SceneOrchestration
             group.Items.ThrowIfEmptyOrNull();
 
 
-            if (IsLoading) yield break;
+            if (IsLoading) return;
 
             IsLoading = true;
 
             var oneStep = 1f / ((_currentGroup?.Items?.Length ?? 0) + group.Items.Length);
             var sceneLoadingState = new SceneLoadingProgressHandle(oneStep);
 
-            onLoadingStarted.Invoke(sceneLoadingState);
+            OnSceneLoadingStateChanged(sceneLoadingState);
 
             sceneLoadingState.OnProgress?.Invoke(0);
 
             if (_currentGroup != null)
             {
-                yield return UnloadGroup(_currentGroup, group, sceneLoadingState);
+                await UnloadGroup(_currentGroup, sceneLoadingState, cancellationToken);
             }
 
             var loadedScenes = _currentGroup?.Items ?? Array.Empty<SceneMetadata>();
 
             foreach (var sceneGroupItem in group.Items)
             {
-                if (sceneGroupItem.DoNotOverride && loadedScenes.Any(x => x.ScenePath.Equals(sceneGroupItem.ScenePath)))
+                if (sceneGroupItem.IsSingleton && loadedScenes.Any(x => x.ScenePath.Equals(sceneGroupItem.ScenePath)))
                 {
                     sceneLoadingState.ProgressIn();
                     continue;
                 }
 
                 var asyncOperation = SceneManager.LoadSceneAsync(sceneGroupItem.ScenePath, LoadSceneMode.Additive);
-                yield return asyncOperation;
+                await asyncOperation;
 
-                if (debugDelayBetweenOperations > 0)
-                    yield return new WaitForSecondsRealtime(debugDelayBetweenOperations);
+                if (_debugDelayBetweenOperations > 0)
+                    await UniTask.Delay(TimeSpan.FromSeconds(_debugDelayBetweenOperations),
+                        cancellationToken: cancellationToken);
 
                 if (sceneGroupItem.SetSceneActive)
                 {
@@ -126,8 +87,8 @@ namespace Obert.Common.Runtime.SceneOrchestration
             IsLoading = false;
         }
 
-        private IEnumerator UnloadGroup(ISceneGroup groupToUnload, ISceneGroup loadedGroup,
-            SceneLoadingProgressHandle sceneLoadingState)
+        private async UniTask UnloadGroup(ISceneGroup groupToUnload,
+            SceneLoadingProgressHandle sceneLoadingState, CancellationToken cancellationToken)
         {
             if (groupToUnload == null) throw new ArgumentNullException(nameof(groupToUnload));
 
@@ -142,13 +103,26 @@ namespace Obert.Common.Runtime.SceneOrchestration
 
                 var asyncOperation = SceneManager.UnloadSceneAsync(groupItem.ScenePath);
 
-                yield return asyncOperation;
+                await asyncOperation;
 
-                if (debugDelayBetweenOperations > 0)
-                    yield return new WaitForSecondsRealtime(debugDelayBetweenOperations);
+                if (_debugDelayBetweenOperations > 0)
+                    await UniTask.Delay(TimeSpan.FromSeconds(_debugDelayBetweenOperations),
+                        cancellationToken: cancellationToken);
 
                 sceneLoadingState.ProgressIn();
             }
+        }
+
+        private void OnSceneLoadingStateChanged(SceneLoadingState e)
+        {
+            SceneLoadingStateChanged?.Invoke(this, e);
+        }
+
+        public void Dispose()
+        {
+            if (_cancellationTokenSource is { IsCancellationRequested: false })
+                _cancellationTokenSource.Cancel();
+            _cancellationTokenSource?.Dispose();
         }
     }
 }

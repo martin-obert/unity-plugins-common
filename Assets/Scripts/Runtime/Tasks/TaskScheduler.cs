@@ -1,51 +1,44 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Obert.Common.Runtime.Extensions;
-using UnityEngine;
 
 namespace Obert.Common.Runtime.Tasks
 {
-    public class TaskScheduler : MonoBehaviour, ITaskScheduler
+    public sealed class TaskScheduler : ITaskScheduler
     {
-        public static TaskScheduler Instance { get; private set; }
+        private readonly Func<IBackgroundTaskRunner> _factory;
 
-        private void Awake()
+        public TaskScheduler(Func<IBackgroundTaskRunner> factory)
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                if (Instance != this)
-                {
-                    Destroy(gameObject);
-                    return;
-                }
-            }
-
-            DontDestroyOnLoad(gameObject);
+            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
+        }
+        
+        public IBackgroundTaskRunner RunTasks(IBackgroundTask[] tasks, CancellationToken token)
+        {
+            return RunTasks(token, tasks);
         }
 
-        public ITaskScheduler RunTasks(params BackgroundTask[] tasks) => RunTasks(tasks, CancellationToken.None);
-        public ITaskScheduler RunTask(BackgroundTask task, CancellationToken cancellationToken = default) => RunTask(task, null, cancellationToken);
-        public ITaskScheduler RunTask(BackgroundTask task, Action onComplete, CancellationToken cancellationToken = default) => RunTasks(new[] { task }, onComplete, cancellationToken);
 
-        public ITaskScheduler RunTasks(BackgroundTask[] tasks, CancellationToken token)
+        public IBackgroundTaskRunner RunTask(Action onComplete, CancellationToken token, IBackgroundTask task)
         {
-            tasks.ThrowIfEmptyOrNull();
-
-            gameObject.AddComponent<BackgroundTaskRunner>().SetTasks(tasks, null, token);
-
-            return this;
+            return RunTasks(onComplete, token, task);
         }
-        public ITaskScheduler RunTasks(BackgroundTask[] tasks, Action onComplete, CancellationToken token)
+
+        public IBackgroundTaskRunner RunTasks<T>(CancellationToken token, params T[] tasks) where T : IBackgroundTask
+        {
+            return RunTasks(null, token, tasks);
+        }
+
+        public IBackgroundTaskRunner RunTasks<T>(Action onComplete, CancellationToken token, params T[] tasks)
+            where T : IBackgroundTask
         {
             tasks.ThrowIfEmptyOrNull();
+            var backgroundTasks = tasks.Cast<IBackgroundTask>().ToArray();
+            var runner = _factory();
+            runner.SetTasks(backgroundTasks, onComplete, token);
 
-            gameObject.AddComponent<BackgroundTaskRunner>().SetTasks(tasks, onComplete, token);
-
-            return this;
+            return runner;
         }
     }
 }

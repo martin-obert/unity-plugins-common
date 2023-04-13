@@ -9,7 +9,7 @@ namespace Obert.Common.Runtime.SceneOrchestration
 
         public void Trigger()
         {
-            SceneGroupManager.Instance.LoadGroup(group);
+            SceneGroupManagerFacade.Instance.LoadGroup(group);
         }
     }
 }

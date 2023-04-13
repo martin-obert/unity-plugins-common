@@ -33,21 +33,6 @@ namespace Samples.Background_Tasks.Scripts
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public void Serial()
-        {
-            if (!_cancellationTokenSource.IsCancellationRequested)
-                _cancellationTokenSource.Cancel();
-
-            _cancellationTokenSource = new CancellationTokenSource();
-
-            var backgroundTasks = counters
-                .Select(x => new CounterTask(countTo, x))
-                .Cast<BackgroundTask>()
-                .ToArray();
-
-            TaskScheduler.Instance.RunTasks(backgroundTasks, () => Debug.Log("All counters are done"),
-                _cancellationTokenSource.Token);
-        }
 
         public void Parallel()
         {
@@ -57,12 +42,12 @@ namespace Samples.Background_Tasks.Scripts
             _cancellationTokenSource = new CancellationTokenSource();
 
             var backgroundTasks = counters.Select(x => new CounterTask(countTo, x)).ToArray();
-
-            foreach (var counter in backgroundTasks)
-            {
-                TaskScheduler.Instance.RunTask(counter, () => Debug.Log($"Counter {counter} complete"),
-                    _cancellationTokenSource.Token);
-            }
+            _runner?.Dispose();
+            _runner = TaskSchedulerFacade.Instance.RunTasks(() => Debug.Log($"All counters complete"),
+                _cancellationTokenSource.Token,
+                backgroundTasks);
         }
+
+        private IBackgroundTaskRunner _runner;
     }
 }

@@ -6,6 +6,6 @@
         string ScenePath { get; }
         bool DoNotDestroy { get; }
         bool SetSceneActive { get; }
-        bool DoNotOverride { get; }
+        bool IsSingleton { get; }
     }
 }

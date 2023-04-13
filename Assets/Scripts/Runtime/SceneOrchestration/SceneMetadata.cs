@@ -9,7 +9,7 @@ namespace Obert.Common.Runtime.SceneOrchestration
         [SerializeField] [SceneRef] private string scenePath;
 
         [SerializeField] private bool doNotDestroy = false;
-        [SerializeField] private bool doNotOverride = false;
+        [SerializeField] private bool isSingleton = false;
 
         [SerializeField] private bool setSceneActive = false;
         [SerializeField] private string displayName;
@@ -21,6 +21,6 @@ namespace Obert.Common.Runtime.SceneOrchestration
         public bool DoNotDestroy => doNotDestroy;
 
         public bool SetSceneActive => setSceneActive;
-        public bool DoNotOverride => doNotOverride;
+        public bool IsSingleton => isSingleton;
     }
 }
