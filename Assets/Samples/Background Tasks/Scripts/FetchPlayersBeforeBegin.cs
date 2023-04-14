@@ -65,7 +65,7 @@ namespace Samples.Background_Tasks.Scripts
 
         private void Start()
         {
-            _runner = TaskSchedulerFacade.Instance.RunTasks(() => Debug.Log("All images loaded"),
+            _runner = TaskSchedulerFacade.Instance.RunTasks($"Complete: {Guid.NewGuid()}",_ => Debug.Log("All images loaded"),
                 CancellationToken.None,
                 images.Select(image => new AvatarFetch(avatarUrl, image)).ToArray());
         }
