@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.12.0...v1.13.0) (2023-04-14)
+
+
+### Features
+
+* ILogger ([#42](https://github.com/martin-obert/unity-plugins-common/issues/42)) ([9d27c73](https://github.com/martin-obert/unity-plugins-common/commit/9d27c73ffb0cbd6960cb554b73a562743bc3587e))
+
 ## [1.12.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.11.0...v1.12.0) (2023-04-13)
 
 
