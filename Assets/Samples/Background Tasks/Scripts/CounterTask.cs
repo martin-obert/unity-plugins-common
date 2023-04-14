@@ -11,9 +11,11 @@ namespace Samples.Background_Tasks.Scripts
     {
         private readonly int _countTo;
         private readonly TMP_Text _label;
+        public override string ID { get; }
 
-        public CounterTask(int countTo, TMP_Text label)
+        public CounterTask(int id, int countTo, TMP_Text label)
         {
+            ID = id.ToString();
             _countTo = countTo;
             _label = label;
         }

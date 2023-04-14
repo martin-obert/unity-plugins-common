@@ -7,37 +7,44 @@ namespace Obert.Common.Runtime.Tasks
 {
     public sealed class TaskScheduler : ITaskScheduler
     {
-        private readonly Func<IBackgroundTaskRunner> _factory;
+        private readonly Func<string, IBackgroundTask[], CancellationToken, IBackgroundTaskRunner> _factory;
 
-        public TaskScheduler(Func<IBackgroundTaskRunner> factory)
+        public TaskScheduler(Func<string, IBackgroundTask[], CancellationToken, IBackgroundTaskRunner> factory)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
         }
-        
-        public IBackgroundTaskRunner RunTasks(IBackgroundTask[] tasks, CancellationToken token)
+
+        public IBackgroundTaskRunner RunTasks(string id, IBackgroundTask[] tasks, CancellationToken token)
         {
-            return RunTasks(token, tasks);
+            return RunTasks(id, token, tasks);
         }
 
 
-        public IBackgroundTaskRunner RunTask(Action onComplete, CancellationToken token, IBackgroundTask task)
+        public IBackgroundTaskRunner RunTask(string id, Action<IBackgroundTask[]> onComplete, CancellationToken token,
+            IBackgroundTask task)
         {
-            return RunTasks(onComplete, token, task);
+            return RunTasks(id, onComplete, token, task);
         }
 
-        public IBackgroundTaskRunner RunTasks<T>(CancellationToken token, params T[] tasks) where T : IBackgroundTask
+        public IBackgroundTaskRunner RunTasks<T>(string id, CancellationToken token, params T[] tasks)
+            where T : IBackgroundTask
         {
-            return RunTasks(null, token, tasks);
+            return RunTasks(id, null, token, tasks);
         }
 
-        public IBackgroundTaskRunner RunTasks<T>(Action onComplete, CancellationToken token, params T[] tasks)
+        public IBackgroundTaskRunner RunTasks<T>(string id, Action<IBackgroundTask[]> onComplete, CancellationToken token,
+            params T[] tasks)
             where T : IBackgroundTask
         {
             tasks.ThrowIfEmptyOrNull();
+            
             var backgroundTasks = tasks.Cast<IBackgroundTask>().ToArray();
-            var runner = _factory();
-            runner.SetTasks(backgroundTasks, onComplete, token);
-
+            
+            var runner = _factory(id, backgroundTasks, token);
+            
+            if (onComplete != null)
+                runner.Complete += (_, args) => onComplete(args);
+            
             return runner;
         }
     }

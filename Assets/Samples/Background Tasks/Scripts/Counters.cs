@@ -41,9 +41,10 @@ namespace Samples.Background_Tasks.Scripts
 
             _cancellationTokenSource = new CancellationTokenSource();
 
-            var backgroundTasks = counters.Select(x => new CounterTask(countTo, x)).ToArray();
+            var backgroundTasks = counters.Select((x, i) => new CounterTask(i, countTo, x)).ToArray();
             _runner?.Dispose();
-            _runner = TaskSchedulerFacade.Instance.RunTasks(() => Debug.Log($"All counters complete"),
+            _runner = TaskSchedulerFacade.Instance.RunTasks($"Runner: {Guid.NewGuid()}",
+                _ => Debug.Log($"All counters complete"),
                 _cancellationTokenSource.Token,
                 backgroundTasks);
         }

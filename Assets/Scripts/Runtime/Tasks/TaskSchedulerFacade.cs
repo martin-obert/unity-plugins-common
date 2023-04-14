@@ -12,7 +12,12 @@ namespace Obert.Common.Runtime.Tasks
         {
             if (Instance == null)
             {
-                Instance = new TaskScheduler(() => gameObject.AddComponent<BackgroundTaskRunner>());
+                Instance = new TaskScheduler((id, tasks, token) =>
+                {
+                    var backgroundTaskRunner = gameObject.AddComponent<BackgroundTaskRunner>();
+                    backgroundTaskRunner.SetController(new BackgroundTaskRunner.Controller(id, tasks, token));
+                    return backgroundTaskRunner.InstanceController;
+                });
             }
             else
             {

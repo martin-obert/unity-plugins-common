@@ -6,5 +6,7 @@ namespace Obert.Common.Runtime.Tasks
     public interface IBackgroundTask
     {
         UniTask Execute(CancellationToken cancellationTokenSource = default);
+        
+        string ID { get; }
     }
 }
