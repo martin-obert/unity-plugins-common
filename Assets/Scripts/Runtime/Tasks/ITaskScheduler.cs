@@ -16,7 +16,8 @@ namespace Obert.Common.Runtime.Tasks
         /// <param name="token">Pass for cancellation reasons</param>
         /// <param name="task">Task to be run</param>
         /// <returns></returns>
-        IBackgroundTaskRunner RunTask(string id, Action<IBackgroundTask[]> onComplete, CancellationToken token, IBackgroundTask task);
+        IBackgroundTaskRunner RunTask(string id, Action<IBackgroundTask[]> onComplete, CancellationToken token,
+            IBackgroundTask task);
 
         /// <summary>
         /// Run multiple tasks on new task runner
@@ -26,7 +27,8 @@ namespace Obert.Common.Runtime.Tasks
         /// <param name="tasks">Tasks that will be run in parallel</param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        IBackgroundTaskRunner RunTasks<T>(string id, CancellationToken token, params T[] tasks) where T : IBackgroundTask;
+        IBackgroundTaskRunner RunTasks<T>(string id, CancellationToken token, params T[] tasks)
+            where T : IBackgroundTask;
 
         /// <summary>
         /// Run multiple tasks on new task runner
@@ -37,6 +39,7 @@ namespace Obert.Common.Runtime.Tasks
         /// <param name="tasks">Tasks that will be run in parallel</param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        IBackgroundTaskRunner RunTasks<T>(string id, Action<IBackgroundTask[]> onComplete, CancellationToken token, params T[] tasks) where T : IBackgroundTask;
+        IBackgroundTaskRunner RunTasks<T>(string id, Action<IBackgroundTask[]> onComplete, CancellationToken token,
+            params T[] tasks) where T : IBackgroundTask;
     }
 }
