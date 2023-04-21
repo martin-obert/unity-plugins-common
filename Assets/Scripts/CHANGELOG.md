@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.13.0...v1.14.0) (2023-04-21)
+
+
+### Features
+
+* observable queue for running tasks ([#48](https://github.com/martin-obert/unity-plugins-common/issues/48)) ([87c36f9](https://github.com/martin-obert/unity-plugins-common/commit/87c36f9d41f4e7c96aedadc84c68d54acfebff94))
+
 ## [1.13.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.12.0...v1.13.0) (2023-04-14)
 
 
