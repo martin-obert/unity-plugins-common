@@ -20,21 +20,21 @@ namespace Samples.Background_Tasks.Scripts
             _label = label;
         }
 
-        public override async UniTask Execute(CancellationToken cancellationTokenSource = default)
+        public override async UniTask Execute(CancellationToken cancellationToken = default)
         {
             var startTime = Time.timeSinceLevelLoad;
             var timeUp = startTime + _countTo;
-            await UniTask.SwitchToMainThread(cancellationTokenSource);
+            await UniTask.SwitchToMainThread(cancellationToken);
             while (Time.timeSinceLevelLoad < timeUp)
             {
-                if (cancellationTokenSource.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested)
                 {
                     _label.text = 0f.ToString("00");
                     throw new OperationCanceledException("IsCancellationRequested");
                 }
                 
                 _label.text = $"{Time.timeSinceLevelLoad - startTime:00}";
-                await UniTask.NextFrame(cancellationTokenSource);
+                await UniTask.NextFrame(cancellationToken);
             }
         }
     }
