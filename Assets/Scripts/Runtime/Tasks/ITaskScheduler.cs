@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Obert.Common.Runtime.Tasks
@@ -6,7 +7,7 @@ namespace Obert.Common.Runtime.Tasks
     /// <summary>
     /// Scheduler, that will run tasks in parallel
     /// </summary>
-    public interface ITaskScheduler
+    public interface ITaskScheduler : IDisposable
     {
         /// <summary>
         /// Run single task on new task runner
@@ -41,5 +42,10 @@ namespace Obert.Common.Runtime.Tasks
         /// <returns></returns>
         IBackgroundTaskRunner RunTasks<T>(string id, Action<IBackgroundTask[]> onComplete, CancellationToken token,
             params T[] tasks) where T : IBackgroundTask;
+
+        /// <summary>
+        /// Emits each time new background tasks are running or completed
+        /// </summary>
+        event EventHandler<IEnumerable<IBackgroundTask>> RunningTasksQueue;
     }
 }

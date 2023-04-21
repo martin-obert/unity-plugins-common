@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Obert.Common.Runtime.Extensions;
@@ -43,9 +44,37 @@ namespace Obert.Common.Runtime.Tasks
             var runner = _factory(id, backgroundTasks, token);
             
             if (onComplete != null)
-                runner.Complete += (_, args) => onComplete(args);
+                runner.Complete += (_, args) =>
+                {
+                    foreach (var backgroundTask in args)
+                    {
+                        _runningTasks.Remove(backgroundTask);
+                        OnRunningTasks();
+                    }
+                    onComplete(args);
+                };
+
+            foreach (var backgroundTask in tasks)
+            {
+                _runningTasks.Add(backgroundTask);
+            }
+            OnRunningTasks();
             
             return runner;
+        }
+
+        private readonly IList<IBackgroundTask> _runningTasks = new List<IBackgroundTask>();
+        
+        public event EventHandler<IEnumerable<IBackgroundTask>> RunningTasksQueue;
+
+        private void OnRunningTasks()
+        {
+            RunningTasksQueue?.Invoke(this, _runningTasks);
+        }
+
+        public void Dispose()
+        {
+            _runningTasks?.Clear();
         }
     }
 }
