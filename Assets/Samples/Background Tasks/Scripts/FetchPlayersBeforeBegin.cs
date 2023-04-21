@@ -27,19 +27,19 @@ namespace Samples.Background_Tasks.Scripts
                 _waitDelay = Random.Range(0f, 5f);
             }
 
-            public override async UniTask Execute(CancellationToken cancellationTokenSource = default)
+            public override async UniTask Execute(CancellationToken cancellationToken = default)
             {
                 try
                 {
                     var request = await UnityWebRequestTexture.GetTexture(_url).SendWebRequest()
-                        .ToUniTask(cancellationToken: cancellationTokenSource);
+                        .ToUniTask(cancellationToken: cancellationToken);
 
                     if (request.result != UnityWebRequest.Result.Success)
                     {
                         throw new Exception($"Status Code: {request.responseCode} - {request.error}");
                     }
 
-                    await UniTask.Delay(TimeSpan.FromSeconds(_waitDelay), cancellationToken: cancellationTokenSource);
+                    await UniTask.Delay(TimeSpan.FromSeconds(_waitDelay), cancellationToken: cancellationToken);
 
                     var imageSprite = ((DownloadHandlerTexture)request.downloadHandler).texture;
                     _image.sprite = Sprite.Create(imageSprite, new Rect(0, 0, imageSprite.width, imageSprite.height),
@@ -48,7 +48,7 @@ namespace Samples.Background_Tasks.Scripts
                     while (_image.color.a < 1)
                     {
                         _image.color = new Color(1, 1, 1, Mathf.Clamp01(_image.color.a + Time.deltaTime));
-                        await UniTask.NextFrame(cancellationTokenSource);
+                        await UniTask.NextFrame(cancellationToken);
                     }
 
                     Debug.Log("Completed");
