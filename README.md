@@ -3,7 +3,8 @@
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/martin-obert/unity-plugins-common/publish-package.yml?label=UPM%20deployment)](http://upm.obert.cz/)
 
 Only include essential components, that are commonly used across multiple projects. 
-This package might has two dependencies:
+
+## Prerequisites
 
 UniTask:
 install - https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask
@@ -11,8 +12,28 @@ install - https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins
 UniRx:
 download - https://github.com/neuecc/UniRx/releases/download/7.1.0/UniRx.unitypackage
 
+## Installation
+Update projects manifest.json with following entry
+```
+"dependencies": {
+    ...
+    "com.obert.common": "1.14.0",
+    ...
+},
+"scopedRegistries": [
+    {
+      "name": "Obert",
+      "url": "http://upm.obert.cz",
+      "scopes": [
+        "com.obert"
+      ]
+    }
+  ]
+```
 
+Or follow Unity official setup guide for [scoped registeries](https://docs.unity3d.com/Manual/upm-scoped.html)
 
 # Package
 
+Follow package specific ReadMe for features description
 [README](https://github.com/martin-obert/unity-plugins-common?path=/Assets/Scripts/Readme.md)
