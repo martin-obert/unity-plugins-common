@@ -11,14 +11,6 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/cache@v2
-      with:
-        path: Library
-        key: Library-CommonPlugins-Standalone
-        restore-keys: |
-          Library-CommonPlugins-
-          Library-
-        
     - uses: game-ci/unity-test-runner@v2
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
