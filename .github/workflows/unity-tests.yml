@@ -1,28 +1,26 @@
-# name: Unity Tests
+name: Unity Tests
 
-# on:
-  # pull_request:
-     # types: [opened, synchronize]
-  # push:
-    # branches:
-      # - main
+on:
+  pull_request:
+     types: [opened, synchronize]
+  push:
+    branches:
+      - main
 
-# defaults:
-  # run:
-    # working-directory: Assets/Scripts
-
-# jobs:
-  # check_and_generate_files:
-    # environment: prod
-    # runs-on: ubuntu-latest
-    # steps:
-      # - uses: actions/checkout@v3
-      # - uses: actions/setup-node@v3
-        # with:
-          # node-version: 16
-      # - uses: google-github-actions/release-please-action@v3
-        # with:
-          # release-type: node
-          # package-name: com.obert.common
-          # path: Assets/Scripts
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/cache@v2
+      with:
+        key: Library-CommonPlugins-Standalone
+        restore-keys: |
+          Library-CommonPlugins-
+          Library-
+        
+    - uses: game-ci/unity-test-runner@v2
+      env:
+        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+      with:
+        githubToken: ${{ secrets.GITHUB_TOKEN }}
           
