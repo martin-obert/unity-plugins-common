@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using Obert.Common.Runtime.Repositories;
 
-namespace Tests
+namespace Tests.EditorMode
 {
     public class JsonRepositoryTests
     {
