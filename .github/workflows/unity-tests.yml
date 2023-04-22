@@ -13,6 +13,7 @@ jobs:
     steps:
     - uses: actions/cache@v2
       with:
+        path: Library
         key: Library-CommonPlugins-Standalone
         restore-keys: |
           Library-CommonPlugins-
@@ -22,5 +23,6 @@ jobs:
       env:
         UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
       with:
+        projectPath: ./
         githubToken: ${{ secrets.GITHUB_TOKEN }}
           
