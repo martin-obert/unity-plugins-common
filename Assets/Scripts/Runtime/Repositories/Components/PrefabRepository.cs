@@ -1,6 +1,4 @@
-using Obert.Common.Runtime.Repositories.Components;
-
-namespace Obert.Common.Runtime.Repositories
+namespace Obert.Common.Runtime.Repositories.Components
 {
     public class PrefabRepository : ComponentRepository<IdentifyablePrefab>
     {

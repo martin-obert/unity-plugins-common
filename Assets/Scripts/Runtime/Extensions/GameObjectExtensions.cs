@@ -14,7 +14,7 @@ namespace Obert.Common.Runtime.Extensions
 
             var childCount = source.childCount;
 
-            for (int i = childCount - 1; i >= 0; i--)
+            for (var i = childCount - 1; i >= 0; i--)
             {
                 var child = source.GetChild(i);
                 if(!child) continue;
@@ -44,14 +44,23 @@ namespace Obert.Common.Runtime.Extensions
         {
             if (!component) throw new ArgumentNullException(nameof(component));
 
-            return component.GetComponents<MonoBehaviour>().OfType<T>();
+            return component.GetComponents<Component>().OfType<T>();
+        }
+
+        public static T GetInterfaceOfType<T>(this Component component)
+        {
+            return GetInterfacesOfType<T>(component).FirstOrDefault();
+        }
+        public static T GetInterfaceOfType<T>(this GameObject gameObject)
+        {
+            return GetInterfacesOfType<T>(gameObject).FirstOrDefault();
         }
 
         public static IEnumerable<T> GetChildrenInterfacesOfType<T>(this Component component)
         {
             if (!component) throw new ArgumentNullException(nameof(component));
 
-            return component.GetComponentsInChildren<MonoBehaviour>().OfType<T>();
+            return component.GetComponentsInChildren<Component>().OfType<T>();
         }
 
         public static IEnumerable<T> GetInterfacesOfType<T>(this GameObject gameObject)
