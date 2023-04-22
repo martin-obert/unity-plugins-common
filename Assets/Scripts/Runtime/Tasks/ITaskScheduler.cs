@@ -44,8 +44,12 @@ namespace Obert.Common.Runtime.Tasks
             params T[] tasks) where T : IBackgroundTask;
 
         /// <summary>
-        /// Emits each time new background tasks are running or completed
+        /// Represents current state of a Background Tasks queue. <see cref="EventArgs"/> contains all active <see cref="IBackgroundTask"/>
+        /// Emits each time new background tasks are running or completed.
         /// </summary>
+        /// <example>
+        /// If we schedule 10 tasks, each time one of the tasks completes the observable emits current state of queue. So it returns only running tasks.
+        /// </example>
         event EventHandler<IEnumerable<IBackgroundTask>> RunningTasksQueue;
     }
 }

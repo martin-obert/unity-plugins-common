@@ -5,5 +5,6 @@ namespace Obert.Common.Runtime.Repositories.Components
     
     public abstract class ReadOnlyMonoRepositoryBase : MonoBehaviour, IReadOnlyRepositoryBase
     {
+        public abstract int Count();
     }
 }

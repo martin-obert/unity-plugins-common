@@ -24,7 +24,7 @@ namespace Obert.Common.Runtime.Repositories.Scriptable
 
                 var filePath = Path.Combine(Application.persistentDataPath, relativePath);
 
-                _repository = new JsonDataRepository<TData>(jsonFileName, filePath);
+                _repository = new JsonDataRepository<TData>(new FileProvider(jsonFileName, filePath));
 
                 return _repository;
             }
@@ -61,5 +61,7 @@ namespace Obert.Common.Runtime.Repositories.Scriptable
 
         public void Save()
             => Repository.Save();
+
+        public int Count() => Repository.Count();
     }
 }

@@ -45,7 +45,7 @@ namespace Obert.Common.Runtime.Repositories.Components
         {
             var filePath = Path.Combine(Application.persistentDataPath, relativePath);
 
-            _repository = new JsonDataRepository<TData>(jsonFileName, filePath);
+            _repository = new JsonDataRepository<TData>(new FileProvider(jsonFileName, filePath));
 
             Subscribe();
 
@@ -111,8 +111,8 @@ namespace Obert.Common.Runtime.Repositories.Components
                 _repository.Save();
         }
 
-        public TData FirstOrDefault(Func<TData, bool> search)
-            => _repository.FirstOrDefault(search);
+        public TData FirstOrDefault(Func<TData, bool> search = null)
+            => _repository.FirstOrDefault(search ?? (_ => true));
 
         public IEnumerable<TData> Many(Func<TData, bool> search = null, int limit = Int32.MaxValue, int skip = 0)
             => _repository.Many(search, limit, skip);
@@ -133,5 +133,7 @@ namespace Obert.Common.Runtime.Repositories.Components
 
         public void Save()
             => _repository.Save();
+
+        public override int Count() => _repository.Count();
     }
 }

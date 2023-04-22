@@ -14,5 +14,7 @@ namespace Obert.Common.Runtime.Repositories.Components
 
         public IEnumerable<TData> Many(Func<TData, bool> search = null, int limit = Int32.MaxValue, int skip = 0) =>
             data.Where(search ?? (_ => true)).Skip(skip).Take(limit);
+
+        public int Count() => data.Length;
     }
 }

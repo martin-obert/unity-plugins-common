@@ -13,9 +13,9 @@ namespace Obert.Common.Runtime.Repositories.Components
             _data = new List<TData>(data ?? Array.Empty<TData>());
         }
 
-        public TData FirstOrDefault(Func<TData, bool> search) => _data.First(search);
+        public TData FirstOrDefault(Func<TData, bool> search = null) => _data.FirstOrDefault(search ?? (_ => true));
 
-        public IEnumerable<TData> Many(Func<TData, bool> search = null, int limit = Int32.MaxValue, int skip = 0) =>
+        public IEnumerable<TData> Many(Func<TData, bool> search = null, int limit = int.MaxValue, int skip = 0) =>
             _data.Where(search ?? (_ => true)).Skip(skip).Take(limit);
 
         public void Dispose()
@@ -37,6 +37,14 @@ namespace Obert.Common.Runtime.Repositories.Components
 
         public void UpdateSingle(TData item)
         {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            
+            for (var i = 0; i < _data.Count; i++)
+            {
+                var data = _data[i];
+                if(!item.Equals(data))continue;
+                _data[i] = item;
+            }
         }
 
         public void DeleteSingle(TData item)
@@ -53,5 +61,7 @@ namespace Obert.Common.Runtime.Repositories.Components
         {
             throw new NotImplementedException();
         }
+
+        public int Count() => _data.Count;
     }
 }

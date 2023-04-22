@@ -10,8 +10,7 @@ namespace Obert.Common.Runtime.Repositories
 {
     public class JsonDataRepository<TData> : IRepository<TData>, IObservableRepository<TData>
     {
-        private readonly string _fileName;
-        private readonly string _filePath;
+        private readonly IFileProvider _dataProvider;
         private readonly ObservableItem<ItemCreatedEvent<TData>> _itemCreated = new();
         private readonly ObservableItem<ItemMovedEvent<TData>> _itemMoved = new();
         private readonly ObservableItem<ItemUpdatedEvent<TData>> _itemUpdated = new();
@@ -28,13 +27,11 @@ namespace Obert.Common.Runtime.Repositories
         public IObservable<ItemUpdatedEvent<TData>> ItemUpdated => _itemUpdated;
         public IObservable<ItemDeletedEvent<TData>> ItemDeleted => _itemDeleted;
 
-        public JsonDataRepository(string fileName, string filePath)
+        public JsonDataRepository(IFileProvider dataProvider)
         {
-            _fileName = fileName;
-            _filePath = filePath;
+            _dataProvider = dataProvider;
         }
 
-        protected string FullFilePath => Path.Combine(_filePath, _fileName);
 
         private readonly List<TData> _items = new();
 
@@ -47,13 +44,9 @@ namespace Obert.Common.Runtime.Repositories
 
         protected virtual void LoadItems()
         {
-            if (!File.Exists(FullFilePath))
-            {
-                return;
-            }
+            var text = _dataProvider.ReadAllText();
 
-            var text = File.ReadAllText(FullFilePath);
-
+            _items.Clear();
             _items.AddRange(Deserialize(text));
 
             for (var index = 0; index < _items.Count; index++)
@@ -77,10 +70,10 @@ namespace Obert.Common.Runtime.Repositories
         }
 
 
-        public TData FirstOrDefault(Func<TData, bool> search)
+        public TData FirstOrDefault(Func<TData, bool> search = null)
         {
             InitData();
-            return _items.FirstOrDefault(search);
+            return _items.FirstOrDefault(search ?? (_ => true));
         }
 
         public IEnumerable<TData> Many(Func<TData, bool> search = null, int limit = int.MaxValue, int skip = 0)
@@ -102,11 +95,15 @@ namespace Obert.Common.Runtime.Repositories
         public void UpdateSingle(TData item)
         {
             InitData();
-            var index = _items.IndexOf(item);
-            if (index < 0)
-                return;
-            _items[index] = item;
-            _itemUpdated?.OnNext(new ItemUpdatedEvent<TData>(index, item));
+
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            for (var i = 0; i < _items.Count; i++)
+            {
+                var data = _items[i];
+                if(!item.Equals(data))continue;
+                _items[i] = item;
+                _itemUpdated?.OnNext(new ItemUpdatedEvent<TData>(i, item));
+            }
         }
 
         public void DeleteSingle(TData item)
@@ -120,9 +117,9 @@ namespace Obert.Common.Runtime.Repositories
 
         public void ClearAll()
         {
-            if(!_items.Any()) return;
+            if (!_items.Any()) return;
             var array = _items.ToArray();
-            
+
             _items.Clear();
             _itemDeletedBulk.OnNext(new ItemDeletedBulkEvent<TData>(0, array));
         }
@@ -130,34 +127,30 @@ namespace Obert.Common.Runtime.Repositories
         public void Save()
         {
             var text = Serialize(_items.ToArray());
-            if (!Directory.Exists(_filePath))
-            {
-                Directory.CreateDirectory(_filePath);
-            }
-
-            Debug.Log($"{nameof(TData)} saved at: {FullFilePath}");
-            File.WriteAllText(FullFilePath, text);
+            _dataProvider.WriteAllText(text);
         }
 
         public void Dispose()
         {
             _itemCreated?.OnCompleted();
             _itemCreated?.Dispose();
-            
+
             _itemMoved?.OnCompleted();
             _itemMoved?.Dispose();
-            
+
             _itemDeleted?.OnCompleted();
             _itemDeleted?.Dispose();
 
             _itemCreatedBulk?.OnCompleted();
             _itemCreatedBulk?.Dispose();
-            
+
             _itemUpdated?.OnCompleted();
             _itemUpdated?.Dispose();
-        
+
             _itemDeletedBulk?.OnCompleted();
             _itemDeletedBulk?.Dispose();
         }
+
+        public int Count() => _items.Count;
     }
 }
