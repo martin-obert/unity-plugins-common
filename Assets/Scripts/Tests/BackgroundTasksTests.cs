@@ -33,13 +33,16 @@ namespace Tests
         [UnityTest]
         public IEnumerator TaskSchedulerFacade_RunTest_Pass()
         {
+            using var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
             var id = Guid.NewGuid().ToString();
             new GameObject("TaskSchedulerFacade").AddComponent<TaskSchedulerFacade>();
             var completed = new List<IBackgroundTask>();
 
             yield return new WaitForFixedUpdate();
 
-            TaskSchedulerFacade.Instance.RunTask(Guid.NewGuid().ToString(), tasks => completed.AddRange(tasks), default,
+            TaskSchedulerFacade.Instance.RunTask(Guid.NewGuid().ToString(), 
+                tasks => completed.AddRange(tasks),
+                tokenSource.Token,
                 new BackgroundTaskMock(id, TimeSpan.FromMilliseconds(500)));
 
             yield return new WaitForSeconds(1);
@@ -51,6 +54,7 @@ namespace Tests
         [UnityTest]
         public IEnumerator TaskSchedulerFacade_BackgroundTask_CompleteCallback_Pass()
         {
+            using var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
             var id = Guid.NewGuid().ToString();
             new GameObject("TaskSchedulerFacade").AddComponent<TaskSchedulerFacade>();
             var completed = new List<IBackgroundTask>();
@@ -62,7 +66,7 @@ namespace Tests
                     Assert.IsNotEmpty(tasks);
                     Assert.AreEqual(id, tasks.First().ID);
                     completed.AddRange(tasks);
-                }, default,
+                }, tokenSource.Token,
                 new BackgroundTaskMock(id, TimeSpan.FromMilliseconds(500)));
 
             yield return new WaitForSeconds(1);
@@ -74,6 +78,7 @@ namespace Tests
         [UnityTest]
         public IEnumerator TaskSchedulerFacade_RunTasks_Pass()
         {
+            using var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
             new GameObject("TaskSchedulerFacade").AddComponent<TaskSchedulerFacade>();
             yield return new WaitForFixedUpdate();
             var completed = new List<IBackgroundTask>();
@@ -88,7 +93,7 @@ namespace Tests
                 {
                     AssertTasksIds(tasks, taskCount, ids);
                     completed.AddRange(tasks);
-                }, default,
+                }, tokenSource.Token,
                 backgroundTasks);
 
             yield return new WaitForSeconds(1);
