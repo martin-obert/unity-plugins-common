@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.14.0...v1.15.0) (2023-04-23)
+
+
+### Features
+
+* update docu ([#61](https://github.com/martin-obert/unity-plugins-common/issues/61)) ([d4e80e5](https://github.com/martin-obert/unity-plugins-common/commit/d4e80e53111799f85502a963af9d89ea885e1118))
+
 ## [1.14.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.13.0...v1.14.0) (2023-04-21)
 
 
