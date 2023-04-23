@@ -1,6 +1,6 @@
 {
   "name": "com.obert.common",
-  "version": "1.15.0",
+  "version": "1.15.1",
   "displayName": "Obert - Common",
   "description": "Common plugin",
   "unity": "2021.3",
@@ -40,6 +40,6 @@
     }
   ],
   "dependencies": {
-	"com.unity.nuget.newtonsoft-json": "3.1.0"
+    "com.unity.nuget.newtonsoft-json": "3.1.0"
   }
 }
