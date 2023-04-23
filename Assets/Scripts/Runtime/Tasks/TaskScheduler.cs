@@ -8,13 +8,6 @@ namespace Obert.Common.Runtime.Tasks
 {
     public sealed class TaskScheduler : ITaskScheduler
     {
-        private readonly Func<string, IBackgroundTask[], CancellationToken, IBackgroundTaskRunner> _factory;
-
-        public TaskScheduler(Func<string, IBackgroundTask[], CancellationToken, IBackgroundTaskRunner> factory)
-        {
-            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-        }
-
         public IBackgroundTaskRunner RunTasks(string id, IBackgroundTask[] tasks, CancellationToken token)
         {
             return RunTasks(id, token, tasks);
@@ -40,8 +33,8 @@ namespace Obert.Common.Runtime.Tasks
             tasks.ThrowIfEmptyOrNull();
             
             var backgroundTasks = tasks.Cast<IBackgroundTask>().ToArray();
-            
-            var runner = _factory(id, backgroundTasks, token);
+
+            var runner = new BackgroundTaskRunner(id, backgroundTasks, token);
             
             if (onComplete != null)
                 runner.Complete += (_, args) =>
@@ -59,8 +52,7 @@ namespace Obert.Common.Runtime.Tasks
                 _runningTasks.Add(backgroundTask);
             }
             OnRunningTasks();
-            
-            return runner;
+            return runner.Execute();
         }
 
         private readonly IList<IBackgroundTask> _runningTasks = new List<IBackgroundTask>();

@@ -29,18 +29,32 @@ namespace Tests.PlayMode
             public string ID { get; }
         }
 
+        private ITaskScheduler taskScheduler;
+        private CancellationTokenSource tokenSource;
+
+        [SetUp]
+        public void SetupTest()
+        {
+            taskScheduler = new TaskScheduler();
+            tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+        }
+
+        [TearDown]
+        public  void TearDownTest()
+        {
+            taskScheduler.Dispose();
+            if(!tokenSource.IsCancellationRequested)
+                tokenSource.Cancel();
+            
+            tokenSource.Dispose();
+        }
 
         [UnityTest]
         public IEnumerator TaskSchedulerFacade_RunTest_Pass()
         {
-            using var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
             var id = Guid.NewGuid().ToString();
-            new GameObject("TaskSchedulerFacade").AddComponent<TaskSchedulerFacade>();
             var completed = new List<IBackgroundTask>();
-
-            yield return new WaitForFixedUpdate();
-
-            TaskSchedulerFacade.Instance.RunTask(Guid.NewGuid().ToString(), 
+            taskScheduler.RunTask(Guid.NewGuid().ToString(),
                 tasks => completed.AddRange(tasks),
                 tokenSource.Token,
                 new BackgroundTaskMock(id, TimeSpan.FromMilliseconds(500)));
@@ -54,14 +68,10 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator TaskSchedulerFacade_BackgroundTask_CompleteCallback_Pass()
         {
-            using var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
             var id = Guid.NewGuid().ToString();
-            new GameObject("TaskSchedulerFacade").AddComponent<TaskSchedulerFacade>();
             var completed = new List<IBackgroundTask>();
 
-            yield return new WaitForFixedUpdate();
-
-            TaskSchedulerFacade.Instance.RunTask(Guid.NewGuid().ToString(), tasks =>
+            taskScheduler.RunTask(Guid.NewGuid().ToString(), tasks =>
                 {
                     Assert.IsNotEmpty(tasks);
                     Assert.AreEqual(id, tasks.First().ID);
@@ -78,18 +88,15 @@ namespace Tests.PlayMode
         [UnityTest]
         public IEnumerator TaskSchedulerFacade_RunTasks_Pass()
         {
-            using var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(3));
-            new GameObject("TaskSchedulerFacade").AddComponent<TaskSchedulerFacade>();
-            yield return new WaitForFixedUpdate();
             var completed = new List<IBackgroundTask>();
-           
+
             const int taskCount = 10;
 
             var ids = Enumerable.Range(0, taskCount).Select(x => x.ToString()).ToArray();
 
             var backgroundTasks = Enumerable.Range(0, ids.Length)
                 .Select(id => new BackgroundTaskMock(id.ToString(), TimeSpan.FromMilliseconds(500))).ToArray();
-            TaskSchedulerFacade.Instance.RunTasks(Guid.NewGuid().ToString(), tasks =>
+            taskScheduler.RunTasks(Guid.NewGuid().ToString(), tasks =>
                 {
                     AssertTasksIds(tasks, taskCount, ids);
                     completed.AddRange(tasks);
@@ -100,7 +107,8 @@ namespace Tests.PlayMode
             AssertTasksIds(completed, taskCount, ids);
         }
 
-        private static void AssertTasksIds(IReadOnlyList<IBackgroundTask> tasks, int taskCount, IReadOnlyList<string> ids)
+        private static void AssertTasksIds(IReadOnlyList<IBackgroundTask> tasks, int taskCount,
+            IReadOnlyList<string> ids)
         {
             Assert.IsNotEmpty(tasks);
             Assert.AreEqual(taskCount, tasks.Count);
