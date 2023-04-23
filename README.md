@@ -3,7 +3,10 @@
 [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/martin-obert/unity-plugins-common/publish-package.yml?label=UPM%20deployment)](http://upm.obert.cz/)
 [![Unity Tests](https://github.com/martin-obert/unity-plugins-common/actions/workflows/unity-tests.yml/badge.svg)](https://github.com/martin-obert/unity-plugins-common/actions/workflows/unity-tests.yml)
 
-Only include essential components, that are commonly used across multiple projects. 
+This is readme for project itself, including Unity, DevOps, settups etc.
+
+For individual features descriptions, that this project contains, please follow package specific ReadMe 
+[README](https://github.com/martin-obert/unity-plugins-common?path=/Assets/Scripts/Readme.md)
 
 ## Prerequisites
 
@@ -34,10 +37,7 @@ Update projects manifest.json with following entry
 
 Or follow Unity official setup guide for [scoped registeries](https://docs.unity3d.com/Manual/upm-scoped.html)
 
-# Contribution
+## Contribution
 - use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), so the Release Please can auto catch on those changes
+- only include essential components, that are commonly used across multiple projects. 
 
-# Package
-
-Follow package specific ReadMe for features description
-[README](https://github.com/martin-obert/unity-plugins-common?path=/Assets/Scripts/Readme.md)
