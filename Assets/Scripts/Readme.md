@@ -2,6 +2,11 @@
 
 This package contains mainly scripts with implementation of features that I've frequently used in variety of my projects and had to implement them over and over again.
 
+# Prerequisites
+UniTask: from git Url
+
+```https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask```
+
 # FEATURES
 ## GameObject extensions
 - methods for transform child objects, like: Destroy(Immediate), ChildrenToArray
