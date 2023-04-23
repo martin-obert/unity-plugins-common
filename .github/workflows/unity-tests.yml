@@ -23,10 +23,10 @@ jobs:
           lfs: true
       - uses: actions/cache@v3
         with:
-          path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}
+          path: Library
+          key: Library
           restore-keys: |
-            Library-
+            Library
       - uses: game-ci/unity-test-runner@v2
         id: tests
         env:
