@@ -24,7 +24,7 @@ jobs:
       - name: Copy Samples folders
         run: |
             echo "Entering Scripts folder"
-            cd Assets/Scripts
+            cd ./Assets/Scripts
             echo "Removing current samples if any"
             rm -rf Samples~
             echo "Creating Samples~ folder"
