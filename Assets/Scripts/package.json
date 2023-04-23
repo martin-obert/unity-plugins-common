@@ -39,7 +39,7 @@
       "path": "Samples~/Background Tasks"
     }
   ],
-  "dependencies": [
+  "dependencies": {
 	"com.unity.nuget.newtonsoft-json": "3.1.0"
-  ]
+  }
 }
