@@ -34,6 +34,9 @@ Update projects manifest.json with following entry
 
 Or follow Unity official setup guide for [scoped registeries](https://docs.unity3d.com/Manual/upm-scoped.html)
 
+# Contribution
+- use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), so the Release Please can auto catch on those changes
+
 # Package
 
 Follow package specific ReadMe for features description
