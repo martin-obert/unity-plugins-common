@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.15.1](https://github.com/martin-obert/unity-plugins-common/compare/v1.15.0...v1.15.1) (2023-04-23)
+
+
+### Bug Fixes
+
+* Newtonsoft Json ([#66](https://github.com/martin-obert/unity-plugins-common/issues/66)) ([5435aa1](https://github.com/martin-obert/unity-plugins-common/commit/5435aa14ee6d3e1b750d452c7281b4d14f3b45f7))
+* package.json ([a5199be](https://github.com/martin-obert/unity-plugins-common/commit/a5199beea754ca27f964acdd5ab8a2fd793b42a5))
+* package.json references ([#68](https://github.com/martin-obert/unity-plugins-common/issues/68)) ([9cf4d82](https://github.com/martin-obert/unity-plugins-common/commit/9cf4d82e116abe5c61b67cd975f00a59ecb4e299))
+
 ## [1.15.0](https://github.com/martin-obert/unity-plugins-common/compare/v1.14.0...v1.15.0) (2023-04-23)
 
 
