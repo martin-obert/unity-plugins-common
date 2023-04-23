@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using UnityEngine;
 
 namespace Obert.Common.Runtime.Tasks
@@ -7,17 +8,14 @@ namespace Obert.Common.Runtime.Tasks
     {
         private Action _dispose;
         public static ITaskScheduler Instance { get; private set; }
+        private CancellationTokenSource tokenSource;
 
         private void Awake()
         {
             if (Instance == null)
             {
-                Instance = new TaskScheduler((id, tasks, token) =>
-                {
-                    var backgroundTaskRunner = gameObject.AddComponent<BackgroundTaskRunner>();
-                    backgroundTaskRunner.SetController(new BackgroundTaskRunner.Controller(id, tasks, token));
-                    return backgroundTaskRunner.InstanceController;
-                });
+                tokenSource = new CancellationTokenSource();
+                Instance = new TaskScheduler();
             }
             else
             {
@@ -25,7 +23,15 @@ namespace Obert.Common.Runtime.Tasks
                 return;
             }
 
-            _dispose = () => { Instance = null; };
+            _dispose = () =>
+            {
+                if (tokenSource is { IsCancellationRequested: true })
+                {
+                    tokenSource.Cancel();
+                }
+                tokenSource?.Dispose();
+                Instance = null;
+            };
             DontDestroyOnLoad(gameObject);
         }
 
