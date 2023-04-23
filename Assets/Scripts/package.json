@@ -38,5 +38,8 @@
       "description": "Simple lighweighted tasks, that without additional dependencies. Still would prefer UniTasks, but this is relatively fast and easy to use.",
       "path": "Samples~/Background Tasks"
     }
+  ],
+  "dependencies": [
+	"com.unity.nuget.newtonsoft-json": "3.1.x",
   ]
 }
