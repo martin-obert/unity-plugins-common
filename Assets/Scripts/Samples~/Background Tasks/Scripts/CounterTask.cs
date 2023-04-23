@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using Obert.Common.Runtime.Tasks;
 using TMPro;
 using UnityEngine;
@@ -11,33 +11,31 @@ namespace Samples.Background_Tasks.Scripts
     {
         private readonly int _countTo;
         private readonly TMP_Text _label;
+        public override string ID { get; }
 
-        public CounterTask(int countTo, TMP_Text label)
+        public CounterTask(int id, int countTo, TMP_Text label)
         {
+            ID = id.ToString();
             _countTo = countTo;
             _label = label;
         }
 
-        public override IEnumerator Execute(CancellationToken cancellationTokenSource = default)
+        public override async UniTask Execute(CancellationToken cancellationToken = default)
         {
             var startTime = Time.timeSinceLevelLoad;
             var timeUp = startTime + _countTo;
-
+            await UniTask.SwitchToMainThread(cancellationToken);
             while (Time.timeSinceLevelLoad < timeUp)
             {
-                if (cancellationTokenSource.IsCancellationRequested)
+                if (cancellationToken.IsCancellationRequested)
                 {
                     _label.text = 0f.ToString("00");
-                    OnError(new OperationCanceledException("IsCancellationRequested"));
-                    break;
+                    throw new OperationCanceledException("IsCancellationRequested");
                 }
                 
                 _label.text = $"{Time.timeSinceLevelLoad - startTime:00}";
-                yield return new WaitForEndOfFrame();
+                await UniTask.NextFrame(cancellationToken);
             }
-            
-            OnSuccess();
-            OnComplete();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using Obert.Common.Runtime.Attributes;
 using Obert.Common.Runtime.Extensions;
 using Obert.Common.Runtime.Tasks;
 using TMPro;
@@ -11,6 +12,14 @@ namespace Samples.Background_Tasks.Scripts
 {
     public class Counters : MonoBehaviour
     {
+        [Serializable]
+        public class CountersIds
+        {
+            [Id] [SerializeField] private string id;
+            public string Id => id;
+        }
+
+        public CountersIds[] ids;
         [SerializeField] private TMP_Text[] counters;
         [SerializeField] private int countTo = 10;
 
@@ -24,21 +33,6 @@ namespace Samples.Background_Tasks.Scripts
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public void Serial()
-        {
-            if (!_cancellationTokenSource.IsCancellationRequested)
-                _cancellationTokenSource.Cancel();
-
-            _cancellationTokenSource = new CancellationTokenSource();
-
-            var backgroundTasks = counters
-                .Select(x => new CounterTask(countTo, x))
-                .Cast<BackgroundTask>()
-                .ToArray();
-
-            TaskScheduler.Instance.RunTasks(backgroundTasks, () => Debug.Log("All counters are done"),
-                _cancellationTokenSource.Token);
-        }
 
         public void Parallel()
         {
@@ -47,13 +41,14 @@ namespace Samples.Background_Tasks.Scripts
 
             _cancellationTokenSource = new CancellationTokenSource();
 
-            var backgroundTasks = counters.Select(x => new CounterTask(countTo, x)).ToArray();
-
-            foreach (var counter in backgroundTasks)
-            {
-                TaskScheduler.Instance.RunTask(counter, () => Debug.Log($"Counter {counter} complete"),
-                    _cancellationTokenSource.Token);
-            }
+            var backgroundTasks = counters.Select((x, i) => new CounterTask(i, countTo, x)).ToArray();
+            _runner?.Dispose();
+            _runner = TaskSchedulerFacade.Instance.RunTasks($"Runner: {Guid.NewGuid()}",
+                _ => Debug.Log($"All counters complete"),
+                _cancellationTokenSource.Token,
+                backgroundTasks);
         }
+
+        private IBackgroundTaskRunner _runner;
     }
 }
