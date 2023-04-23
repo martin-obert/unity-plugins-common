@@ -70,7 +70,7 @@ namespace Obert.Common.Runtime.Extensions
             return gameObject.GetComponents<MonoBehaviour>().OfType<T>();
         }
 
-        public static Transform[] GetChildren(this GameObject gameObject)
+        public static Transform[] ChildrenToArray(this GameObject gameObject)
         {
             if (!gameObject) throw new ArgumentNullException(nameof(gameObject));
 
@@ -87,7 +87,7 @@ namespace Obert.Common.Runtime.Extensions
             return result;
         }
 
-        public static Transform[] GetChildren(this Transform transform)
+        public static Transform[] ChildrenToArray(this Transform transform)
         {
             if (!transform) throw new ArgumentNullException(nameof(transform));
 
