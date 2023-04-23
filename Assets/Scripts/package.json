@@ -40,6 +40,6 @@
     }
   ],
   "dependencies": [
-	"com.unity.nuget.newtonsoft-json": "3.1.x",
+	"com.unity.nuget.newtonsoft-json": "3.1.0"
   ]
 }
