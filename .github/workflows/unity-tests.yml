@@ -11,18 +11,26 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/cache@v2
-      with:
-        path: Library
-        key: Library-CommonPlugins-Standalone
-        restore-keys: |
-          Library-CommonPlugins-
-          Library-
-        
-    - uses: game-ci/unity-test-runner@v2
-      env:
-        UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-      with:
-        projectPath: ./
-        githubToken: ${{ secrets.GITHUB_TOKEN }}
+     # Checkout
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      # Cache
+      - uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      # Test
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v2.0.0
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          testMode: editmode
           

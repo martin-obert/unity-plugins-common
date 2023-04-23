@@ -4,7 +4,7 @@ using Obert.Common.Runtime.Extensions;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Tests
+namespace Tests.PlayMode
 {
     public class GameObjectExtensionsTests
     {
@@ -62,7 +62,7 @@ namespace Tests
             Assert.AreEqual(1, parentTransform.childCount);
             var parent = childGameObject.transform.parent;
             Assert.IsTrue(parent == parentTransform);
-            parentTransform.ClearChildGameObjects();
+            parentTransform.ClearChildGameObjectsImmediately();
             yield return new WaitForFixedUpdate();
             Assert.AreEqual(0, parentTransform.childCount);
             Assert.Throws<MissingReferenceException>(() =>

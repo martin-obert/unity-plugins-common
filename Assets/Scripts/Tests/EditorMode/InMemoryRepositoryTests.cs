@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Obert.Common.Runtime.Repositories;
 using Obert.Common.Runtime.Repositories.Components;
 
-namespace Tests
+namespace Tests.EditorMode
 {
     public class RepositoryData
     {

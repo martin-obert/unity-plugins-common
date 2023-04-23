@@ -1,20 +1,22 @@
 {
-    "name": "Tests",
+    "name": "Common.Editor.Tests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Obert.Common",
-        "UniTask"
+        "UniTask",
+        "Obert.Common"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
         "nunit.framework.dll",
-        "Moq.dll",
-        "Newtonsoft.Json.dll"
+        "Newtonsoft.Json.dll",
+        "Moq.dll"
     ],
     "autoReferenced": false,
     "defineConstraints": [
