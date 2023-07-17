@@ -4,6 +4,11 @@ using System.Linq;
 
 namespace Obert.Common.Runtime.Repositories.Components
 {
+    /// <summary>
+    /// Basic repository that will hold data in memory. Use this prior in your prototype phase.
+    /// You can swap this any time
+    /// </summary>
+    /// <typeparam name="TData">Type of data to be stored</typeparam>
     public sealed class InMemoryRepository<TData> : IRepository<TData>
     {
         private readonly IList<TData> _data;
