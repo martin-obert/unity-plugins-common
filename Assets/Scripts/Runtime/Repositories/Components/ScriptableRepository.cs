@@ -10,7 +10,7 @@ namespace Obert.Common.Runtime.Repositories.Components
     {
         [SerializeField] private TData[] data;
 
-        public TData FirstOrDefault(Func<TData, bool> search) => data.FirstOrDefault(search);
+        public TData FirstOrDefault(Func<TData, bool> search = null) => data.FirstOrDefault(search ?? (_ => true));
 
         public IEnumerable<TData> Many(Func<TData, bool> search = null, int limit = Int32.MaxValue, int skip = 0) =>
             data.Where(search ?? (_ => true)).Skip(skip).Take(limit);
