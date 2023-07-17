@@ -40,11 +40,11 @@ namespace Obert.Common.Runtime.Repositories.Scriptable
             Dispose();
         }
 
-        public TData FirstOrDefault(Func<TData, bool> search)
-            => Repository.FirstOrDefault(search);
+        public TData FirstOrDefault(Func<TData, bool> search = null)
+            => Repository.FirstOrDefault(search ?? (_ => true));
 
         public IEnumerable<TData> Many(Func<TData, bool> search = null, int limit = Int32.MaxValue, int skip = 0)
-            => Repository.Many(search, limit, skip);
+            => Repository.Many(search ?? (_ => true), limit, skip);
 
         public void Dispose() => Repository?.Dispose();
 
